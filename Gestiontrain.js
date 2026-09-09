@@ -2,6 +2,7 @@ var prompt = require('prompt-sync')();
    let name="";
  let tripsid=0;
 let iDconture=0;
+let Identifiantticket=0
 function conture(){
     for(let i=0;i<tickets.length;i++){
 
@@ -244,7 +245,7 @@ function AcheterTicket(){
           prix:trips[tripsid-1].price
         }
       )
-    }
+    };
     function AfficherTickets(){
          console.log(`
                     === TICKETS ===
@@ -257,6 +258,14 @@ function AcheterTicket(){
                
             }
         }
+    }
+    function AnnulerTicket(){
+        do{
+Identifiantticket=Number(prompt("saisit vote identifiant du ticket:"));
+if(Identifiantticket!==tickets.TICKETS){
+    console.log("Ticket introuvable.");
+}
+    }while()
     }
     
 
@@ -325,4 +334,4 @@ function main() {
     } while (n!=0)
 }
 
-main()
+main();

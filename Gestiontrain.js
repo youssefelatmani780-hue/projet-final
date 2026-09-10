@@ -205,11 +205,11 @@ function AfficherTrajets(){
 
         `);
 }
+prompt("cliqez sur entrée pour retour"  );
 };
 function AcheterTicket(){
-     
      do{
-         name=String(prompt("Nom du passager : "));
+         name=(prompt("Nom du passager : "));
        if(name.length==0){
         console.log("ecrivez vote nom");
        }
@@ -232,7 +232,7 @@ function AcheterTicket(){
                             Ticket: #${50-trips[tripsid-1].availableSeats}
                         Passager : ${name}
                      Trajet : ${trips[tripsid-1].departure} → ${trips[tripsid-1].destination}           
-                          Place : #${50-trips[tripsid-1].availableSeats}
+                          Place : ${50-trips[tripsid-1].availableSeats}
                           Prix : ${trips[tripsid-1].price}
                         `)
                 }
@@ -240,11 +240,13 @@ function AcheterTicket(){
       tickets.push(
         {TICKETS:"#" + (tickets.length+1)  ,
          passenger:name,
+          tripid:tripsid,
          Trajet  :trips[tripsid-1].departure +("→") + trips[tripsid-1].destination,
          place : 50-trips[tripsid-1].availableSeats,
           prix:trips[tripsid-1].price
         }
       )
+      prompt("cliqez sur entrée pour retour"  );
     };
     function AfficherTickets(){
          console.log(`
@@ -258,15 +260,39 @@ function AcheterTicket(){
                
             }
         }
+        prompt("cliqez sur entrée pour retour"  );
     }
     function AnnulerTicket(){
+        let fond;
+        let Identifiantticket=0
         do{
+            fond=false;
 Identifiantticket=Number(prompt("saisit vote identifiant du ticket:"));
-if(Identifiantticket!==tickets.TICKETS){
+for(let i=0;i<tickets.length;i++){
+  if ("#" +Identifiantticket===tickets[i].TICKETS){
+for(let j=0;j<trips.length;j++){
+    if(tickets[i].tripid===trips[j].id){
+        trips[j].availableSeats++;
+    }
+}
+    tickets.splice(i,1);
+    console.log(`
+        Identifiant du ticket : ${Identifiantticket}
+
+        Ticket annulé avec succès.
+
+        `)
+        fond=true;
+        break;
+    } 
+}    
+       if(fond===false){
     console.log("Ticket introuvable.");
 }
-    }while()
+}while(fond===false);
+prompt("cliqez sur entrée pour retour"  );
     }
+    
     
 
 
@@ -324,9 +350,12 @@ function main() {
             case 6:
                 FiltrerTrajets()
                  break;
-             case 7:
+            case 7:
                 TrierTrajets() 
-                break;   
+                break;
+            case 0: 
+            console.log("Merci de nous avoir choisis.") 
+                break; 
             default:
                 console.log("Votre choix n'etait pas acceptable, Svp donne moi une valeur entre 1 et 7");
                 break;

@@ -2,15 +2,7 @@ var prompt = require('prompt-sync')();
 let name = "";
 let tripsid = 0;
 let iDconture = 0;
-let Identifiantticket = 0
-// function conture() {
-//     for (let i = 0; i < tickets.length; i++) {
-
-//         iDconture = tickets.length;
-//     }
-//     iDconture++
-//     return iDconture;
-// }
+let Identifiantticket = 0;
 const trips = [
     {
         id: 1,
@@ -209,13 +201,15 @@ function AfficherTrajets() {
     prompt("cliqez sur entrée pour retour");
 };
 function AcheterTicket() {
+    let ticketAcheter=0;
+    let seatNumber=1;
      name = (prompt("Nom du passager : "));
-     if (name.length == 0) {
-            console.log("ecrivez vote nom");
+     if (name.trim() === "") {
+            console.log("Ecrivez vote nom ");
             return;
      }
      tripsid = Number(prompt("Identifiant du trajet :"));
-     if (tripsid < 1 || tripsid > 20 || tripsid.length == 0) {
+     if (tripsid < 1 || tripsid > 20 || isNaN(tripsid)) {
             console.log(" Trajet introuvable choixez un Identifiant du trajet entre 1 et 20 ");
          return;
      }
@@ -223,16 +217,21 @@ function AcheterTicket() {
         if(tripsid===trips[i].id){
         trips[i].availableSeats--;
         iDconture++;
+        for(let j=0;j<tickets.length;j++){
+            if (tickets[j].tripid===tripsid){
+                ticketAcheter++;
+                 seatNumber=ticketAcheter+1;
+            }
+        }
           console.log(`
                        Ticket acheté avec succès.
                               
-                            Ticket: #${50 - trips[i].availableSeats}
+                            Ticket: #${seatNumber}
                         Passager : ${name}
                      Trajet : ${trips[i].departure} → ${trips[i].destination}           
-                          Place : ${50 - trips[i].availableSeats}
+                          Place : ${seatNumber}
                           Prix : ${trips[i].price}
                         `)
-
         }
         else if (trips[i].availableSeats === 0) {
             console.log("Train complet");
@@ -247,7 +246,7 @@ function AcheterTicket() {
             passenger: name,
             tripid: tripsid,
             Trajet: trips[tripsid-1].departure + ("→") + trips[tripsid-1].destination,
-            place: 50 - trips[tripsid-1].availableSeats,
+            place: seatNumber,
             prix: trips[tripsid-1].price
         }
     )
@@ -305,20 +304,21 @@ function AnnulerTicket() {
     prompt("cliqez sur entrée pour retour");
 };
 function RechercherTicket() {
+
     let nom_du_passager = ("");
     let rechercher;
     do {
         rechercher = false
         nom_du_passager = prompt("Nom du passager:")
         for (i = 0; i < tickets.length; i++) {
-            if (nom_du_passager === tickets[i].passenger) {
+            if (nom_du_passager.toLowerCase() === tickets[i].passenger.toLowerCase()) {
 
                 console.log(`
               Ticket ${tickets[i].TICKETS}
               Passager : ${tickets[i].passenger}
               Trajet : ${tickets[i].Trajet}
               Place : ${tickets[i].place}
-              Prix : ${tickets[i].prix}
+              Prix : ${tickets[i].prix} DH
 
                 `);
                 rechercher = true;
@@ -331,6 +331,47 @@ function RechercherTicket() {
     } while (rechercher === false);
     prompt("cliqez sur entrée pour retour");
 };
+
+function FiltrerTrajets(){
+ let villeRechercher=prompt(" Entrer la Ville de départ :")
+ let ville=false
+       console.log(`Ville de départ:${villeRechercher}
+                      Résultat :
+        `);
+ for(i=0;i<trips.length;i++){
+    if(villeRechercher.trim().toLowerCase()===trips[i].departure.trim().toLowerCase()){
+        ville=true;
+        console.log(`
+                    ${trips[i].departure}→${trips[i].destination}:${trips[i].price } DH          
+            `);
+    }
+};
+    if(ville===false){
+        console.log("la ville de depart introuvable")
+    }
+    prompt("cliqez sur entrée pour retour");
+    };
+ function TrierTrajets(){
+ let trierPix=[...trips];
+ let swap=0;
+ for(let i=0;i<trierPix.length-1;i++){
+    for(let j=0;j<trierPix.length-1;j++){
+    if(trierPix[j].price > trierPix[j+1].price){
+        swap=trierPix[j];
+        trierPix[j]=trierPix[j+1];
+        trierPix[j+1]=swap;
+    }
+}
+ }
+      for(i=0;i<trierPix.length;i++){
+        console.log(`
+           ${trierPix[i].departure}→${trierPix[i].destination}:${trierPix[i].price} DH
+            `)
+        }
+     prompt("cliqez sur entrée pour retour");
+    };
+
+
 
 
 

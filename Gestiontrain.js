@@ -402,34 +402,6 @@ function statistique(){
 
     `)
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function main() {
     let n;
     do {
@@ -444,7 +416,10 @@ function main() {
         console.log("8.Statistiques");
         console.log("0. Quitter");
 
-        n = Number(prompt("votre un choix:"));
+        n = prompt("votre un choix:").trim();
+        if(n!=""){
+            n=Number(n)
+        }
         switch (n) {
             case 1:
                 AfficherTrajets()
@@ -477,7 +452,7 @@ function main() {
                 console.log("Votre choix n'etait pas acceptable, Svp donne moi une valeur entre 1 et 7");
                 break;
         }
-    } while (n != 0)
+    } while (n !== 0)
 }
 
 main();
